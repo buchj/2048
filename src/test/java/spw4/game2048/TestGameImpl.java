@@ -20,6 +20,7 @@ public class TestGameImpl
         game.initialize();
     }
 
+    //region 1: The board consists of 16 tiles (4 x 4).
     @Test
     void testGetValueAtValidCoordinatesYieldsNoException(){
         List<Integer> values = new LinkedList<>();
@@ -37,5 +38,22 @@ public class TestGameImpl
     void testGetValueAtInvalidCoordinatesYieldsException(int x,int y){
         Assertions.assertThrows(IllegalArgumentException.class,()->game.getValueAt(x,y));
     }
+    //endregion
 
+    //region 2: When starting the game, the board is initialized with 2 randomly positioned tiles.
+    @Test
+    void testBoardInitializesWith2Tiles(){
+        List<Integer> values = new LinkedList<>();
+        for (int i = 0; i < 4; i++)
+        {
+            for (int j = 0; j < 4; j++)
+            {
+                values.add(game.getValueAt(i,j));
+            }
+        }
+        Assertions.assertEquals(2,values.stream().filter((x)->x>0).count());
+    }
+    //endregion
+
+    
 }

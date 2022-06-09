@@ -1,8 +1,12 @@
 package spw4.game2048;
 
+import java.util.Random;
+
 public class GameImpl implements Game {
     final int WIDTH = 4;
     final int HEIGHT = 4;
+
+    int[][] board = new int[WIDTH][HEIGHT];
 
     public GameImpl() {
         // to do ...
@@ -21,7 +25,7 @@ public class GameImpl implements Game {
     public int getValueAt(int x, int y) {
         if(x < 0 || x >=WIDTH || y < 0 || y>=HEIGHT)throw new IllegalArgumentException();
         // to do ...
-        return 0;
+        return board[x][y];
     }
 
 
@@ -42,7 +46,19 @@ public class GameImpl implements Game {
     }
 
     public void initialize() {
-        // to do ...
+        Random r = new Random();
+        for (int i = 0; i < 2; i++)
+        {
+            int x=r.nextInt(WIDTH);
+            int y=r.nextInt(HEIGHT);
+            if(board[x][y]!=0){
+                i--;
+                continue;
+            }
+            else{
+                board[x][y]=2;
+            }
+        }
     }
 
     public void move(Direction direction) {
