@@ -6,7 +6,8 @@ public class GameImpl implements Game {
     final int WIDTH = 4;
     final int HEIGHT = 4;
 
-    int[][] board = new int[WIDTH][HEIGHT];
+    int[][] board;
+    Random random=new Random();
 
     public GameImpl() {
         // to do ...
@@ -46,17 +47,19 @@ public class GameImpl implements Game {
     }
 
     public void initialize() {
-        Random r = new Random();
+        board  = new int[WIDTH][HEIGHT];
+
         for (int i = 0; i < 2; i++)
         {
-            int x=r.nextInt(WIDTH);
-            int y=r.nextInt(HEIGHT);
+            int x=random.nextInt(WIDTH);
+            int y=random.nextInt(HEIGHT);
             if(board[x][y]!=0){
                 i--;
                 continue;
             }
             else{
-                board[x][y]=2;
+
+                board[x][y]= random.nextDouble()>0.9?4:2;
             }
         }
     }
