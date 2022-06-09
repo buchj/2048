@@ -1,7 +1,10 @@
 package spw4.game2048;
 
 public class GameImpl implements Game {
-    public Game() {
+    final int WIDTH = 4;
+    final int HEIGHT = 4;
+
+    public GameImpl() {
         // to do ...
     }
 
@@ -16,6 +19,7 @@ public class GameImpl implements Game {
     }
 
     public int getValueAt(int x, int y) {
+        if(x < 0 || x >=WIDTH || y < 0 || y>=HEIGHT)throw new IllegalArgumentException();
         // to do ...
         return 0;
     }
