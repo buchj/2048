@@ -7,6 +7,8 @@ public class GameImpl implements Game {
 
 
     boolean moveGeneratesTiles = true;
+    boolean over = false;
+    boolean won = false;
     int[][] board;
     int score=0;
     Random random=new Random();
@@ -41,13 +43,11 @@ public class GameImpl implements Game {
 
 
     public boolean isOver() {
-        // to do ...
-        return false;
+        return over;
     }
 
     public boolean isWon() {
-        // to do ...
-        return false;
+       return won;
     }
 
     @Override
@@ -115,6 +115,10 @@ public class GameImpl implements Game {
                    board[newX][newY]=value*2;
                     board[oldX][oldY]=0;
                     score+=value;
+                    if(value>=1024){
+                        won=true;
+                        over=true;
+                    }
                 }
                 else{
                     continue;

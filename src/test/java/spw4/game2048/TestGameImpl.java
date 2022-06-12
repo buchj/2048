@@ -106,7 +106,6 @@ public class TestGameImpl
         Assertions.assertEquals(2,game.getValueAt(0,0));
 
     }
-
     //endregion
 
     //region 6:If two tiles with the same value touch they are merged, and the value is doubled. An already
@@ -175,7 +174,6 @@ public class TestGameImpl
         game.move(Direction.right);
         Assertions.assertEquals(value,game.getScore());
     }
-
     //endregion
 
     //region 8:After each move, a new tile is created at an empty position of the board, which is chosen at
@@ -194,5 +192,21 @@ public class TestGameImpl
     }
     //endregion
 
-    
+    //region 9:If two tiles are merged to the value of 2048, the player wins the game.
+    @Test
+    void testIsWonIsTrueAfterMergingTo2048(){
+        gameImpl.clearBoard();
+        gameImpl.setValueAt(1,0,1024);
+        gameImpl.setValueAt(1,1,1024);
+        Assertions.assertEquals(false,game.isOver());
+        Assertions.assertEquals(false,game.isWon());
+
+        game.move(Direction.right);
+
+        Assertions.assertEquals(true,game.isOver());
+        Assertions.assertEquals(true,game.isWon());
+    }
+    //endregion
+
+
 }
