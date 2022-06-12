@@ -163,4 +163,19 @@ public class TestGameImpl
         Assertions.assertEquals(4,game.getValueAt(1,3));
     }
     //endregion
+
+    //region 7:Each time when two tiles are merged, the score is increased by the value of the merged tiles.
+    @ParameterizedTest
+    @ValueSource(ints = {2,4,8})
+    void testMergeIncreasesScore(int value){
+        gameImpl.clearBoard();
+        gameImpl.setValueAt(1,0,value);
+        gameImpl.setValueAt(1,1,value);
+        game.move(Direction.right);
+        Assertions.assertEquals(value,game.getScore());
+    }
+
+    //endregion
+
+
 }

@@ -7,6 +7,7 @@ public class GameImpl implements Game {
 
 
     int[][] board;
+    int score=0;
     Random random=new Random();
 
     public GameImpl() {
@@ -20,7 +21,7 @@ public class GameImpl implements Game {
 
     public int getScore() {
         // to do ...
-        return 0;
+        return score;
     }
 
     public int getValueAt(int x, int y) {
@@ -66,7 +67,6 @@ public class GameImpl implements Game {
                 continue;
             }
             else{
-
                 board[x][y]= random.nextDouble()>0.9?4:2;
             }
         }
@@ -107,16 +107,12 @@ public class GameImpl implements Game {
                 else if(valueOfTargetTile==value){
                    board[newX][newY]=value*2;
                     board[oldX][oldY]=0;
+                    score+=value;
                 }
                 else{
                     continue;
                 }
-
-
-
             }
-
         }
-
     }
 }
