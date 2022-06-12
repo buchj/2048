@@ -3,8 +3,8 @@ package spw4.game2048;
 import java.util.Random;
 
 public class GameImpl implements Game {
-    final int WIDTH = 4;
-    final int HEIGHT = 4;
+    final int SIDE_LENGTH = 4;
+
 
     int[][] board;
     Random random=new Random();
@@ -24,9 +24,13 @@ public class GameImpl implements Game {
     }
 
     public int getValueAt(int x, int y) {
-        if(x < 0 || x >=WIDTH || y < 0 || y>=HEIGHT)throw new IllegalArgumentException();
+        if(x < 0 || x >= SIDE_LENGTH || y < 0 || y>=SIDE_LENGTH)throw new IllegalArgumentException();
         // to do ...
         return board[x][y];
+    }
+
+    public void setValueAt(int x, int y, int value) {
+        board[x][y]=value;
     }
 
 
@@ -46,13 +50,17 @@ public class GameImpl implements Game {
         return "";
     }
 
+    public void clearBoard(){
+        board  = new int[SIDE_LENGTH][SIDE_LENGTH];
+    }
+
     public void initialize() {
-        board  = new int[WIDTH][HEIGHT];
+        clearBoard();
 
         for (int i = 0; i < 2; i++)
         {
-            int x=random.nextInt(WIDTH);
-            int y=random.nextInt(HEIGHT);
+            int x=random.nextInt(SIDE_LENGTH);
+            int y=random.nextInt(SIDE_LENGTH);
             if(board[x][y]!=0){
                 i--;
                 continue;
@@ -65,6 +73,39 @@ public class GameImpl implements Game {
     }
 
     public void move(Direction direction) {
-        // to do ...
+        boolean horizontal = direction==Direction.right||direction==Direction.left;
+        boolean reverse = direction==Direction.left||direction==Direction.up;
+
+        for (int i = 0; i < SIDE_LENGTH; i++)
+        {
+
+            for (int j = 0; j < SIDE_LENGTH; j++)
+            {
+                int oldX = reverse?i:SIDE_LENGTH-1-i;
+                int oldY = reverse?j:SIDE_LENGTH-1-j;
+
+                if(!horizontal){
+                    int temp = oldX;
+                    oldX=oldY;
+                    oldY=temp;
+                }
+
+                int value = board[oldX][oldY];
+                if(value==0)continue;
+
+                int newX = !horizontal? (!reverse?oldX+1:oldX-1)  :oldX;
+                int newY = horizontal? (!reverse?oldY+1:oldY-1) :oldY;
+                if(newX < 0 || newX >= SIDE_LENGTH || newY < 0 || newY>=SIDE_LENGTH)continue;
+
+                if(board[newY][newX]!=0)continue;
+
+                board[newX][newY]=value;
+                board[oldX][oldY]=0;
+
+                j-=2;
+            }
+
+        }
+
     }
 }

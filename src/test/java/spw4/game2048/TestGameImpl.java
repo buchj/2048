@@ -13,11 +13,13 @@ import org.junit.jupiter.params.provider.ValueSource;
 public class TestGameImpl
 {
     Game game;
+    GameImpl gameImpl;
 
     @BeforeEach
     void setup(){
         game = new GameImpl();
         game.initialize();
+        gameImpl = (GameImpl) game;
     }
 
     List<Integer> getValues(){
@@ -72,5 +74,37 @@ public class TestGameImpl
     }
     //endregion
 
-    
+    //4: At each turn, the player can choose in which direction the tiles should be moved (either up, down, left, or right).
+    //This cannot be tested
+
+    //region 5:All tiles move in the specified direction as far as they can.
+    @Test
+    void testMoveMovesSingleTiles(){
+        gameImpl.clearBoard();
+        gameImpl.setValueAt(1,0,2);
+
+        game.move(Direction.right);
+
+        Assertions.assertEquals(0,game.getValueAt(1,0));
+        Assertions.assertEquals(2,game.getValueAt(1,3));
+
+
+        game.move(Direction.down);
+
+        Assertions.assertEquals(0,game.getValueAt(1,3));
+        Assertions.assertEquals(2,game.getValueAt(3,3));
+
+        game.move(Direction.up);
+
+        Assertions.assertEquals(0,game.getValueAt(3,3));
+        Assertions.assertEquals(2,game.getValueAt(0,3));
+
+        game.move(Direction.left);
+
+        Assertions.assertEquals(0,game.getValueAt(0,3));
+        Assertions.assertEquals(2,game.getValueAt(0,0));
+
+    }
+
+    //endregion
 }
