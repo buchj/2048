@@ -12,25 +12,24 @@ public class GameImpl implements Game {
     boolean won = false;
     int[][] board;
     int score=0;
+    int moves =0;
     Random random=new Random();
 
     public GameImpl() {
-        // to do ...
+
     }
 
     public int getMoves() {
-        // to do ...
-        return 0;
+
+        return moves;
     }
 
     public int getScore() {
-        // to do ...
         return score;
     }
 
     public int getValueAt(int x, int y) {
         if(x < 0 || x >= SIDE_LENGTH || y < 0 || y>=SIDE_LENGTH)throw new IllegalArgumentException();
-        // to do ...
         return board[x][y];
     }
 
@@ -53,8 +52,18 @@ public class GameImpl implements Game {
 
     @Override
     public String toString() {
-        // to do ...
-        return "";
+        StringBuilder sb = new StringBuilder();
+        sb.append("Score:").append(score).append("  Moves:").append(moves).append("\n");
+        for (int i = 0; i < SIDE_LENGTH; i++)
+        {
+            for (int j = 0; j < SIDE_LENGTH; j++)
+            {
+                int v = board[i][j];
+                sb.append(v!=0?v:".").append(" ");
+            }
+            sb.append("\n");
+        }
+        return sb.toString();
     }
 
     public void clearBoard(){
@@ -132,6 +141,8 @@ public class GameImpl implements Game {
                 }
             }
         }
+        moves++;
         if(moveGeneratesTiles)addRandomTilesToBoard(1);
+
     }
 }
