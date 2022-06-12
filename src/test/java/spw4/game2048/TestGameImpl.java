@@ -20,6 +20,7 @@ public class TestGameImpl
         game = new GameImpl();
         game.initialize();
         gameImpl = (GameImpl) game;
+        gameImpl.setMoveGeneratesTiles(false);
     }
 
     List<Integer> getValues(){
@@ -177,5 +178,21 @@ public class TestGameImpl
 
     //endregion
 
+    //region 8:After each move, a new tile is created at an empty position of the board, which is chosen at
+    //random. Again, the value of this new tile is either 2 (90% probability) or 4 (10% probability).
+    @Test
+    void testMoveCreatesTilesWithCorrectRandomTileValuesInCorrectRandomSpots(){
+        GameImpl newGame = new GameImpl();
 
+        newGame.random=new RandomStub<Integer>(List.of(0,1,2,3,0,0),List.of(0.95,0.75,0.5));
+        newGame.initialize();
+        newGame.move(Direction.down);
+
+        Assertions.assertEquals(4,newGame.getValueAt(3,1));
+        Assertions.assertEquals(2,newGame.getValueAt(3,3));
+        Assertions.assertEquals(2,newGame.getValueAt(0,0));
+    }
+    //endregion
+
+    
 }

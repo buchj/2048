@@ -6,6 +6,7 @@ public class GameImpl implements Game {
     final int SIDE_LENGTH = 4;
 
 
+    boolean moveGeneratesTiles = true;
     int[][] board;
     int score=0;
     Random random=new Random();
@@ -34,6 +35,10 @@ public class GameImpl implements Game {
         board[x][y]=value;
     }
 
+    public void setMoveGeneratesTiles(boolean generates){
+        moveGeneratesTiles =generates;
+    }
+
 
     public boolean isOver() {
         // to do ...
@@ -57,8 +62,12 @@ public class GameImpl implements Game {
 
     public void initialize() {
         clearBoard();
+        addRandomTilesToBoard(2);
+    }
 
-        for (int i = 0; i < 2; i++)
+    private void addRandomTilesToBoard(int amount)
+    {
+        for (int i = 0; i < amount; i++)
         {
             int x=random.nextInt(SIDE_LENGTH);
             int y=random.nextInt(SIDE_LENGTH);
@@ -78,7 +87,6 @@ public class GameImpl implements Game {
 
         for (int i = 0; i < SIDE_LENGTH; i++)
         {
-
             for (int j = 0; j < SIDE_LENGTH; j++)
             {
                 int oldX = reverse?i:SIDE_LENGTH-1-i;
@@ -98,7 +106,6 @@ public class GameImpl implements Game {
                 if(newX < 0 || newX >= SIDE_LENGTH || newY < 0 || newY>=SIDE_LENGTH)continue;
 
                 int valueOfTargetTile = board[newX][newY];
-
                 if(valueOfTargetTile==0){
                     board[newX][newY]=value;
                     board[oldX][oldY]=0;
@@ -114,5 +121,6 @@ public class GameImpl implements Game {
                 }
             }
         }
+        if(moveGeneratesTiles)addRandomTilesToBoard(1);
     }
 }
