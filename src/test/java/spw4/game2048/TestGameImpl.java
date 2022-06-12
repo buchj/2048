@@ -208,5 +208,26 @@ public class TestGameImpl
     }
     //endregion
 
+    //region 10:If no new tile can be created after a move because there are no empty positions left, the player
+    //loses the game.
+    @Test
+    void testIsWonIsFalseAfterBoardIsFullPostMove(){
+        gameImpl.clearBoard();
+        gameImpl.setMoveGeneratesTiles(true);
+        for (int i = 0; i < 4; i++)
+        {
+            for (int j = 0; j < 4; j++)
+            {
+                gameImpl.setValueAt(i,j,(j+1)*2);
+            }
+        }
+        Assertions.assertEquals(false,game.isOver());
+        Assertions.assertEquals(false,game.isWon());
 
+        game.move(Direction.right);
+
+        Assertions.assertEquals(true,game.isOver());
+        Assertions.assertEquals(false,game.isWon());
+    }
+    //endregion
 }

@@ -1,5 +1,6 @@
 package spw4.game2048;
 
+import java.util.Arrays;
 import java.util.Random;
 
 public class GameImpl implements Game {
@@ -67,6 +68,12 @@ public class GameImpl implements Game {
 
     private void addRandomTilesToBoard(int amount)
     {
+        if(Arrays.stream(board).flatMapToInt(x->Arrays.stream(x)).filter((x)->x==0).count()<=0){
+            over=true;
+            won=false;
+            return;
+        }
+
         for (int i = 0; i < amount; i++)
         {
             int x=random.nextInt(SIDE_LENGTH);
