@@ -97,12 +97,23 @@ public class GameImpl implements Game {
                 int newY = horizontal? (!reverse?oldY+1:oldY-1) :oldY;
                 if(newX < 0 || newX >= SIDE_LENGTH || newY < 0 || newY>=SIDE_LENGTH)continue;
 
-                if(board[newY][newX]!=0)continue;
+                int valueOfTargetTile = board[newX][newY];
 
-                board[newX][newY]=value;
-                board[oldX][oldY]=0;
+                if(valueOfTargetTile==0){
+                    board[newX][newY]=value;
+                    board[oldX][oldY]=0;
+                    j-=2;
+                }
+                else if(valueOfTargetTile==value){
+                   board[newX][newY]=value*2;
+                    board[oldX][oldY]=0;
+                }
+                else{
+                    continue;
+                }
 
-                j-=2;
+
+
             }
 
         }

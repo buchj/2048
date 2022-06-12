@@ -79,7 +79,7 @@ public class TestGameImpl
 
     //region 5:All tiles move in the specified direction as far as they can.
     @Test
-    void testMoveMovesSingleTiles(){
+    void testMoveMovesTiles(){
         gameImpl.clearBoard();
         gameImpl.setValueAt(1,0,2);
 
@@ -106,5 +106,61 @@ public class TestGameImpl
 
     }
 
+    //endregion
+
+    //region 6:If two tiles with the same value touch they are merged, and the value is doubled. An already
+    //merged tile cannot be merged again in the same move. Tiles which are further in the direction
+    //of the move are merged first.
+    @Test
+    void testMoveMergesTilesWithSameValues(){
+        gameImpl.clearBoard();
+        gameImpl.setValueAt(1,0,2);
+        gameImpl.setValueAt(1,1,2);
+
+        game.move(Direction.right);
+
+        Assertions.assertEquals(0,game.getValueAt(1,0));
+        Assertions.assertEquals(4,game.getValueAt(1,3));
+    }
+
+    @Test
+    void testMoveDoesNotMergeTilesWithDifferentValues(){
+        gameImpl.clearBoard();
+        gameImpl.setValueAt(1,0,2);
+        gameImpl.setValueAt(1,1,8);
+
+        game.move(Direction.right);
+
+        Assertions.assertEquals(0,game.getValueAt(1,0));
+        Assertions.assertEquals(2,game.getValueAt(1,2));
+        Assertions.assertEquals(8,game.getValueAt(1,3));
+    }
+
+    @Test
+    void testMoveMergesTilesFurtherInMoveDirectionFirst(){
+        gameImpl.clearBoard();
+        gameImpl.setValueAt(1,0,2);
+        gameImpl.setValueAt(1,1,2);
+        gameImpl.setValueAt(1,3,2);
+
+        game.move(Direction.right);
+
+        Assertions.assertEquals(2,game.getValueAt(1,2));
+        Assertions.assertEquals(4,game.getValueAt(1,3));
+    }
+
+    @Test
+    void testMoveMergedTilesAreNotMergedAgainInTheSameMove(){
+        gameImpl.clearBoard();
+        gameImpl.setValueAt(1,0,2);
+        gameImpl.setValueAt(1,1,2);
+        gameImpl.setValueAt(1,2,2);
+        gameImpl.setValueAt(1,3,2);
+
+        game.move(Direction.right);
+
+        Assertions.assertEquals(4,game.getValueAt(1,2));
+        Assertions.assertEquals(4,game.getValueAt(1,3));
+    }
     //endregion
 }
